@@ -17,6 +17,7 @@ import java.util.StringTokenizer;
 /**
  * @author Sahinn
  * @date 16/5/13
+ * 统计Word数
  */
 public class WordCount {
 
