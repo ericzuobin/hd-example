@@ -18,11 +18,11 @@ import java.io.IOException;
  * @date 16/5/13
  * 统计Word数
  */
-public class WordCount {
+public class PlanCount {
 
     //继承Mapper接口,设置map的输入类型为<Object, Text>
     //输出类型为<Text, IntWritable>
-    public static class TokenizerMapper
+    public static class PlanMapper
             extends Mapper<Object, Text, Text, IntWritable> {
         //one表示单词出现一次
         private final static IntWritable one = new IntWritable(1);
@@ -33,17 +33,13 @@ public class WordCount {
                 InterruptedException {
 
             String text = value.toString();
-
             if (!(text.contains("%")&&text.contains("!"))) {
                 return;
             }
 
             String content = text.substring(text.indexOf("%")+1,text.indexOf("!"));
-
             String[] contentArray= content.split(",");
-
             String raceId = "";
-
             for (String s : contentArray) {
                 raceId = s.substring(0,s.indexOf("("));
                 String betContent = s.substring(s.indexOf("(") + 1,s.length() - 1);
@@ -88,8 +84,8 @@ public class WordCount {
         //配置作业名
         Job job = new Job(conf, "word count");
         //配置作业的各个类
-        job.setJarByClass(WordCount.class);
-        job.setMapperClass(TokenizerMapper.class);
+        job.setJarByClass(PlanCount.class);
+        job.setMapperClass(PlanMapper.class);
         job.setCombinerClass(IntSumReducer.class);
         job.setReducerClass(IntSumReducer.class);
         job.setOutputKeyClass(Text.class);
